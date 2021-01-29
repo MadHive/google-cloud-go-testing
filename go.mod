@@ -1,4 +1,4 @@
-module github.com/googleapis/google-cloud-go-testing
+module github.com/MadHive/google-cloud-go-testing
 
 go 1.11
 
@@ -11,3 +11,4 @@ require (
 	google.golang.org/api v0.9.0
 	honnef.co/go/tools v0.0.0-20190418001031-e561f6794a2a
 )
+

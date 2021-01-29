@@ -21,6 +21,7 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+//go:generate moq -out=mock/client.go -pkg=mock . Client
 type Client interface {
 	Location() string
 	SetLocation(string)
@@ -35,12 +36,14 @@ type Client interface {
 	Jobs(context.Context) JobIterator
 }
 
+//go:generate moq -out=mock/copier.go -pkg=mock . Copier
 type Copier interface {
 	JobIDConfig() *bigquery.JobIDConfig
 	SetCopyConfig(CopyConfig)
 	Run(context.Context) (Job, error)
 }
 
+//go:generate moq -out=mock/dataset.go -pkg=mock . Dataset
 type Dataset interface {
 	ProjectID() string
 	DatasetID() string
@@ -53,6 +56,7 @@ type Dataset interface {
 	Tables(context.Context) TableIterator
 }
 
+//go:generate moq -out=mock/dataset_iterator.go -pkg=mock . DatasetIterator
 type DatasetIterator interface {
 	SetListHidden(bool)
 	SetFilter(string)
@@ -61,18 +65,21 @@ type DatasetIterator interface {
 	PageInfo() *iterator.PageInfo
 }
 
+//go:generate moq -out=mock/extractor.go -pkg=mock . Extractor
 type Extractor interface {
 	JobIDConfig() *bigquery.JobIDConfig
 	SetExtractConfig(ExtractConfig)
 	Run(context.Context) (Job, error)
 }
 
+//go:generate moq -out=mock/loader.go -pkg=mock . Loader
 type Loader interface {
 	JobIDConfig() *bigquery.JobIDConfig
 	SetLoadConfig(LoadConfig)
 	Run(context.Context) (Job, error)
 }
 
+//go:generate moq -out=mock/job.go -pkg=mock . Job
 type Job interface {
 	ID() string
 	Location() string
@@ -84,6 +91,7 @@ type Job interface {
 	Read(context.Context) (RowIterator, error)
 }
 
+//go:generate moq -out=mock/job_iterator.go -pkg=mock . JobIterator
 type JobIterator interface {
 	SetProjectID(string)
 	SetAllUsers(bool)
@@ -92,6 +100,7 @@ type JobIterator interface {
 	PageInfo() *iterator.PageInfo
 }
 
+//go:generate moq -out=mock/query.go -pkg=mock . Query
 type Query interface {
 	JobIDConfig() *bigquery.JobIDConfig
 	SetQueryConfig(QueryConfig)
@@ -99,6 +108,7 @@ type Query interface {
 	Read(context.Context) (RowIterator, error)
 }
 
+//go:generate moq -out=mock/row_iterator.go -pkg=mock . RowIterator
 type RowIterator interface {
 	SetStartIndex(uint64)
 	Schema() bigquery.Schema
@@ -107,6 +117,7 @@ type RowIterator interface {
 	PageInfo() *iterator.PageInfo
 }
 
+//go:generate moq -out=mock/table.go -pkg=mock . Table
 type Table interface {
 	CopierFrom(...Table) Copier
 	Create(context.Context, *bigquery.TableMetadata) error
@@ -123,11 +134,13 @@ type Table interface {
 	Uploader() Uploader
 }
 
+//go:generate moq -out=mock/table_iterator.go -pkg=mock . TableIterator
 type TableIterator interface {
 	Next() (Table, error)
 	PageInfo() *iterator.PageInfo
 }
 
+//go:generate moq -out=mock/uploader.go -pkg=mock . Uploader
 type Uploader interface {
 	SetSkipInvalidRows(bool)
 	SetIgnoreUnknownValues(bool)
